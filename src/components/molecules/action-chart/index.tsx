@@ -1,31 +1,42 @@
-import { FC, useEffect } from "react";
+import { FC, useState, useMemo } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 interface IActonChartProps {
   logs: any[];
 }
 
 const ActionChart: FC<IActonChartProps> = ({ logs }) => {
-  const actionOpen = logs.filter((log) => log[3] === "open");
-  const actionRefresh = logs.filter((log) => log[3] === "refresh");
-  const actionTextfield = logs.filter((log) => log[3] === "textfield");
-  const actionEmpty = logs.filter((log) => log[3] === "");
+  const [actionCount, setActionCount] = useState({
+    actionOpen: 0,
+    actionRefresh: 0,
+    actionTextfield: 0,
+    actionEmpty: 0,
+  });
+  useMemo(() => {
+    console.log("Calculating barcharts");
+    const actionOpen = logs.filter((log) => log[3] === "open").length;
+    const actionRefresh = logs.filter((log) => log[3] === "refresh").length;
+    const actionTextfield = logs.filter((log) => log[3] === "textfield").length;
+    const actionEmpty = logs.filter((log) => log[3] === "").length;
+
+    setActionCount({ actionOpen, actionRefresh, actionTextfield, actionEmpty });
+  }, [logs]);
 
   const data = [
     {
       action: "open",
-      open: actionOpen.length,
+      open: actionCount.actionOpen,
     },
     {
       action: "refresh",
-      open: actionRefresh.length,
+      open: actionCount.actionRefresh,
     },
     {
       action: "textfield",
-      open: actionTextfield.length,
+      open: actionCount.actionTextfield,
     },
     {
       action: "empty",
-      open: actionEmpty.length,
+      open: actionCount.actionEmpty,
     },
   ];
 

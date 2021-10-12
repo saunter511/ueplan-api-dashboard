@@ -2,13 +2,17 @@ import { ActionChart, UsageChart } from "molecules";
 import { FC, useContext } from "react";
 
 interface IChartProps {
-  logs: any[];
+  logs: any;
+  chartData: any;
 }
 
-const Charts: FC<IChartProps> = ({ logs }) => {
+const Charts: FC<IChartProps> = ({ logs, chartData }) => {
   return (
     <div>
-      <UsageChart logs={logs} />
+      <UsageChart
+        totalData={chartData.totalData}
+        uniqueData={chartData.uniqueData}
+      />
       <div className="divider"></div>
       <ActionChart logs={logs} />
     </div>

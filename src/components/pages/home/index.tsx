@@ -8,13 +8,23 @@ interface IHomeProps {
   uniqueUsers: number;
   logs: any;
   ready: boolean;
+  chartData: any;
 }
 
-const Home: FC<IHomeProps> = ({ users, uniqueUsers, logs, ready }) => {
+const Home: FC<IHomeProps> = ({
+  users,
+  uniqueUsers,
+  logs,
+  ready,
+  chartData,
+}) => {
   return (
     <div>
       <Stats total={users} unique={uniqueUsers} />
-      <UsageChart logs={logs} />
+      <UsageChart
+        totalData={chartData.totalData}
+        uniqueData={chartData.uniqueData}
+      />
     </div>
   );
 };
