@@ -1,5 +1,5 @@
 import { Navbar, Loading } from "molecules";
-import { Home, Logs } from "pages";
+import { Home, Logs, Charts } from "pages";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -47,7 +47,7 @@ function App() {
                   <Logs logs={data} />
                 </Route>
                 <Route exact path="/charts">
-                  charts
+                  <Charts logs={data} />
                 </Route>
               </Switch>
             </div>
