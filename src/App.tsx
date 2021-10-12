@@ -4,6 +4,7 @@ import { Home } from "pages";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useEffect, useState, Suspense, lazy } from "react";
+import { calculateData } from "utils/statistics";
 
 const Logs = lazy(() => import("./../src/components/pages/logs"));
 const Charts = lazy(() => import("./../src/components/pages/charts"));
@@ -11,6 +12,7 @@ const Charts = lazy(() => import("./../src/components/pages/charts"));
 function App() {
   const [usersCount, setUsersCount] = useState(0);
   const [usersUCount, setUsersUCount] = useState(0);
+  const [chartData, setChartData] = useState<any>();
 
   const [isCalculating, setIsCalculating] = useState(false);
   const { isLoading, isFetching, error, data } = useQuery("data", () =>
@@ -24,6 +26,7 @@ function App() {
       setUsersCount(data.length);
       const ids = data.map((d: any) => d[1]);
       setUsersUCount(new Set(ids).size);
+      setChartData(calculateData(data));
       setIsCalculating(false);
     }
   }, [data, usersCount]);
@@ -43,6 +46,7 @@ function App() {
                       uniqueUsers={usersUCount}
                       logs={data}
                       ready={isLoading || isCalculating}
+                      chartData={chartData}
                     />
                   </Suspense>
                 </Route>
@@ -53,7 +57,7 @@ function App() {
                 </Route>
                 <Route exact path="/charts">
                   <Suspense fallback={<Loading />}>
-                    <Charts logs={data} />
+                    <Charts logs={data} chartData={chartData} />
                   </Suspense>
                 </Route>
               </Switch>
