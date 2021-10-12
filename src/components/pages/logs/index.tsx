@@ -1,10 +1,9 @@
 import { Table } from "./Table";
 import { useQuery } from "react-query";
-import { LoadingContext } from "react-router-loading";
+
 import { useContext, useEffect, useState } from "react";
 
 const Logs = ({ logs }: any) => {
-  const loadingContext = useContext(LoadingContext);
   const [data, setData] = useState(logs);
 
   const {
@@ -31,8 +30,6 @@ const Logs = ({ logs }: any) => {
     setData(logs);
   }),
     [queryData];
-
-  loadingContext.done();
 
   return (
     <>

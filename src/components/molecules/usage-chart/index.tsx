@@ -62,7 +62,7 @@ const UsageChart: FC<IUsageChartProps> = ({ logs, ctx }) => {
               data: uniqueData,
             },
           ]}
-          margin={{ top: 50, right: 110, bottom: 50, left: 60 }}
+          margin={{ top: 50, right: 60, bottom: 50, left: 60 }}
           curve="natural"
           enableGridX={false}
           enableGridY={false}

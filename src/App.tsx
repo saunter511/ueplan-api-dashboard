@@ -1,10 +1,12 @@
-import { Navbar } from "molecules";
-import { Home, Logs, Charts } from "pages";
+import { Loading, Navbar } from "molecules";
+import { Home } from "pages";
 
-import { BrowserRouter as Router } from "react-router-dom";
-import { Switch, Route } from "react-router-loading";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useQuery } from "react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense, lazy } from "react";
+
+const Logs = lazy(() => import("./../src/components/pages/logs"));
+const Charts = lazy(() => import("./../src/components/pages/charts"));
 
 function App() {
   const [usersCount, setUsersCount] = useState(0);
@@ -32,21 +34,27 @@ function App() {
         <Navbar />
         {isLoading || isCalculating ? null : (
           <div className="m-8 flex justify-center">
-            <div className="w-5/6">
+            <div className="w-full sm:w-5/6">
               <Switch>
-                <Route exact path="/" loading>
-                  <Home
-                    users={usersCount}
-                    uniqueUsers={usersUCount}
-                    logs={data}
-                    ready={isLoading || isCalculating}
-                  />
+                <Route exact path="/">
+                  <Suspense fallback={<Loading />}>
+                    <Home
+                      users={usersCount}
+                      uniqueUsers={usersUCount}
+                      logs={data}
+                      ready={isLoading || isCalculating}
+                    />
+                  </Suspense>
                 </Route>
-                <Route exact path="/logs" loading>
-                  <Logs logs={data} />
+                <Route exact path="/logs">
+                  <Suspense fallback={<Loading />}>
+                    <Logs logs={data} />
+                  </Suspense>
                 </Route>
-                <Route exact path="/charts" loading>
-                  <Charts logs={data} />
+                <Route exact path="/charts">
+                  <Suspense fallback={<Loading />}>
+                    <Charts logs={data} />
+                  </Suspense>
                 </Route>
               </Switch>
             </div>

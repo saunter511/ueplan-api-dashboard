@@ -2,22 +2,13 @@ import { FC, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 interface IActonChartProps {
   logs: any[];
-  ctx?: {
-    start: () => void;
-    done: () => void;
-    restart: () => void;
-  };
 }
 
-const ActionChart: FC<IActonChartProps> = ({ logs, ctx }) => {
+const ActionChart: FC<IActonChartProps> = ({ logs }) => {
   const actionOpen = logs.filter((log) => log[3] === "open");
   const actionRefresh = logs.filter((log) => log[3] === "refresh");
   const actionTextfield = logs.filter((log) => log[3] === "textfield");
   const actionEmpty = logs.filter((log) => log[3] === "");
-
-  useEffect(() => {
-    ctx?.done();
-  });
 
   const data = [
     {
