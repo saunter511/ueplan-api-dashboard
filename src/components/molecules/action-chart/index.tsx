@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { ResponsiveBar } from "@nivo/bar";
 interface IActonChartProps {
   logs: any[];

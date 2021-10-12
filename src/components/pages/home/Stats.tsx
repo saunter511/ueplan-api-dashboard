@@ -7,7 +7,7 @@ interface IStatsProps {
 
 export const Stats: FC<IStatsProps> = ({ total, unique }) => {
   return (
-    <div className="w-full shadow stats">
+    <div className=" flex xl:flex-nowrap sm:w-full flex-wrap shadow stats">
       <div className="stat">
         <div className="stat-figure text-primary">
           <svg
