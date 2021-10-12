@@ -2,7 +2,6 @@ import { TableRow } from "./TableRow";
 import { format, parse } from "date-fns";
 
 export const Table = ({ logs }: any) => {
-  console.log(logs);
   return (
     <>
       <div className="overflow-x-auto">

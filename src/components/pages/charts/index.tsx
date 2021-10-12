@@ -1,5 +1,5 @@
 import { ActionChart, UsageChart } from "molecules";
-import { FC } from "react";
+import { FC, useContext } from "react";
 
 interface IChartProps {
   logs: any[];
