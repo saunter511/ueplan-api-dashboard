@@ -1,14 +1,19 @@
 import { ResponsiveLine } from "@nivo/line";
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { groupByDay } from "utils/datetime";
 import { getDistinct } from "utils/statistics";
 import { format } from "date-fns";
 
 interface IUsageChartProps {
   logs: any[];
+  ctx?: {
+    start: () => void;
+    done: () => void;
+    restart: () => void;
+  };
 }
 
-const UsageChart: FC<IUsageChartProps> = ({ logs }) => {
+const UsageChart: FC<IUsageChartProps> = ({ logs, ctx }) => {
   const data = groupByDay(logs);
 
   const grouped = Object.fromEntries(
@@ -38,6 +43,10 @@ const UsageChart: FC<IUsageChartProps> = ({ logs }) => {
       y: Object.values(o)[0] as number,
     };
   });
+
+  useEffect(() => {
+    ctx?.done();
+  }, [uniqueData, totalData]);
   return (
     <div className="card shadow mt-4">
       <div className="h-96">

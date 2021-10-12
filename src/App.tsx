@@ -1,7 +1,8 @@
-import { Navbar, Loading } from "molecules";
+import { Navbar } from "molecules";
 import { Home, Logs, Charts } from "pages";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+import { Switch, Route } from "react-router-loading";
 import { useQuery } from "react-query";
 import { useEffect, useState } from "react";
 
@@ -10,7 +11,7 @@ function App() {
   const [usersUCount, setUsersUCount] = useState(0);
 
   const [isCalculating, setIsCalculating] = useState(false);
-  const { isLoading, isFetching, error, data } = useQuery("repoData", () =>
+  const { isLoading, isFetching, error, data } = useQuery("data", () =>
     fetch("https://api.idappstudio.com/ueplan/stats").then((res) => res.json())
   );
 
@@ -25,28 +26,26 @@ function App() {
     }
   }, [data, usersCount]);
 
-  if (data) console.log(data.length);
   return (
     <>
       <Router>
         <Navbar />
-        {isLoading || isCalculating ? (
-          <Loading />
-        ) : (
+        {isLoading || isCalculating ? null : (
           <div className="m-8 flex justify-center">
             <div className="w-5/6">
               <Switch>
-                <Route exact path="/">
+                <Route exact path="/" loading>
                   <Home
                     users={usersCount}
                     uniqueUsers={usersUCount}
                     logs={data}
+                    ready={isLoading || isCalculating}
                   />
                 </Route>
-                <Route exact path="/logs">
+                <Route exact path="/logs" loading>
                   <Logs logs={data} />
                 </Route>
-                <Route exact path="/charts">
+                <Route exact path="/charts" loading>
                   <Charts logs={data} />
                 </Route>
               </Switch>
