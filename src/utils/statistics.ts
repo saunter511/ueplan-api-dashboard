@@ -1,5 +1,6 @@
 import { groupByDay } from "./datetime";
 import { format } from "date-fns";
+import { Dictionary } from "lodash";
 
 export const getDistinct = (arr: any[]) => {
     const ids = arr.map((d: any) => {
@@ -9,8 +10,7 @@ export const getDistinct = (arr: any[]) => {
 }
 
 
-export const calculateData = (logs: any[]) => {
-    const data = groupByDay(logs);
+export const calculateData = (data: Dictionary<any>) => {
     const grouped = Object.fromEntries(
       Object.entries(data).map(([k, v]) => [k, v.length])
     );

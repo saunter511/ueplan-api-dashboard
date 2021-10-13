@@ -9,6 +9,7 @@ interface IHomeProps {
   logs: any;
   ready: boolean;
   chartData: any;
+  dailyData: any;
 }
 
 const Home: FC<IHomeProps> = ({
@@ -17,10 +18,11 @@ const Home: FC<IHomeProps> = ({
   logs,
   ready,
   chartData,
+  dailyData,
 }) => {
   return (
     <div>
-      <Stats total={users} unique={uniqueUsers} />
+      <Stats total={users} unique={uniqueUsers} daily={dailyData} />
       <UsageChart
         totalData={chartData.totalData}
         uniqueData={chartData.uniqueData}

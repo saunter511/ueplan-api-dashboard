@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useQuery } from "react-query";
 import { useEffect, useState, Suspense, lazy } from "react";
 import { calculateData } from "utils/statistics";
+import { groupByDay, getDailyStats } from "utils/datetime";
+
 
 
 const Logs = lazy(() => import("./../src/components/pages/logs"));
@@ -14,6 +16,7 @@ function App() {
   const [usersCount, setUsersCount] = useState(0);
   const [usersUCount, setUsersUCount] = useState(0);
   const [chartData, setChartData] = useState<any>();
+  const [dayData, setDayData] = useState<any>();
 
   const [isCalculating, setIsCalculating] = useState(true);
   const { isLoading, isFetching, error, data } = useQuery("data", () =>
@@ -25,7 +28,14 @@ function App() {
       setUsersCount(data.length);
       const ids = data.map((d: any) => d[1]);
       setUsersUCount(new Set(ids).size);
-      setChartData(calculateData(data));
+
+      const logs = groupByDay(data);
+      const daily = getDailyStats(logs);
+      console.log(daily.today);
+      setDayData(daily);
+
+      setChartData(calculateData(logs));
+
       setIsCalculating(false);
     }
   }, [data, usersCount]);
@@ -51,6 +61,8 @@ function App() {
                           logs={data}
                           ready={isLoading || isCalculating}
                           chartData={chartData}
+                          dailyData={dayData}
+
                         />
                       </Suspense>
                     </Route>
