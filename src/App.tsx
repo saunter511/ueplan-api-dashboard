@@ -6,6 +6,8 @@ import { useQuery } from "react-query";
 import { useEffect, useState, Suspense, lazy } from "react";
 import { calculateData } from "utils/statistics";
 
+import { motion, AnimatePresence } from "framer-motion";
+
 const Logs = lazy(() => import("./../src/components/pages/logs"));
 const Charts = lazy(() => import("./../src/components/pages/charts"));
 
@@ -14,14 +16,12 @@ function App() {
   const [usersUCount, setUsersUCount] = useState(0);
   const [chartData, setChartData] = useState<any>();
 
-  const [isCalculating, setIsCalculating] = useState(false);
+  const [isCalculating, setIsCalculating] = useState(true);
   const { isLoading, isFetching, error, data } = useQuery("data", () =>
     fetch("https://api.idappstudio.com/ueplan/stats").then((res) => res.json())
   );
 
   useEffect(() => {
-    setIsCalculating(true);
-
     if (data) {
       setUsersCount(data.length);
       const ids = data.map((d: any) => d[1]);
@@ -34,35 +34,41 @@ function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        {isLoading || isCalculating ? null : (
-          <div className="m-8 flex justify-center">
-            <div className="w-full sm:w-5/6">
-              <Switch>
-                <Route exact path="/">
-                  <Suspense fallback={<Loading />}>
-                    <Home
-                      users={usersCount}
-                      uniqueUsers={usersUCount}
-                      logs={data}
-                      ready={isLoading || isCalculating}
-                      chartData={chartData}
-                    />
-                  </Suspense>
-                </Route>
-                <Route exact path="/logs">
-                  <Suspense fallback={<Loading />}>
-                    <Logs logs={data} />
-                  </Suspense>
-                </Route>
-                <Route exact path="/charts">
-                  <Suspense fallback={<Loading />}>
-                    <Charts logs={data} chartData={chartData} />
-                  </Suspense>
-                </Route>
-              </Switch>
-            </div>
-          </div>
+        {isLoading || isCalculating ? (
+          <Loading />
+        ) : (
+          <>
+            <Suspense fallback={<Loading />}>
+              <Navbar />
+              <div className="m-8 flex justify-center">
+                <div className="w-full sm:w-5/6">
+                  <Switch>
+                    <Route exact path="/">
+                      <Suspense fallback={<Loading />}>
+                        <Home
+                          users={usersCount}
+                          uniqueUsers={usersUCount}
+                          logs={data}
+                          ready={isLoading || isCalculating}
+                          chartData={chartData}
+                        />
+                      </Suspense>
+                    </Route>
+                    <Route exact path="/logs">
+                      <Suspense fallback={<Loading />}>
+                        <Logs logs={data} />
+                      </Suspense>
+                    </Route>
+                    <Route exact path="/charts">
+                      <Suspense fallback={<Loading />}>
+                        <Charts logs={data} chartData={chartData} />
+                      </Suspense>
+                    </Route>
+                  </Switch>
+                </div>
+              </div>
+            </Suspense>
+          </>
         )}
       </Router>
     </>
