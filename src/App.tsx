@@ -6,7 +6,6 @@ import { useQuery } from "react-query";
 import { useEffect, useState, Suspense, lazy } from "react";
 import { calculateData } from "utils/statistics";
 
-import { motion, AnimatePresence } from "framer-motion";
 
 const Logs = lazy(() => import("./../src/components/pages/logs"));
 const Charts = lazy(() => import("./../src/components/pages/charts"));
@@ -34,6 +33,7 @@ function App() {
   return (
     <>
       <Router>
+
         {isLoading || isCalculating ? (
           <Loading />
         ) : (
@@ -69,6 +69,7 @@ function App() {
               </div>
             </Suspense>
           </>
+
         )}
       </Router>
     </>
