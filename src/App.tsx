@@ -8,6 +8,7 @@ import { calculateData } from "utils/statistics";
 import { groupByDay, getDailyStats } from "utils/datetime";
 
 
+
 const Logs = lazy(() => import("./../src/components/pages/logs"));
 const Charts = lazy(() => import("./../src/components/pages/charts"));
 
@@ -61,6 +62,7 @@ function App() {
                           ready={isLoading || isCalculating}
                           chartData={chartData}
                           dailyData={dayData}
+
                         />
                       </Suspense>
                     </Route>
