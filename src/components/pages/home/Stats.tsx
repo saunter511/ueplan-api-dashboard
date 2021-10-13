@@ -58,7 +58,8 @@ export const Stats: FC<IStatsProps> = ({ total, unique, daily }) => {
         <div className="stat-value text-warning">{daily.today.length}</div>
         {daily.yesterday.length - daily.today.length < 0 ? (
           <div className="stat-desc text-success">
-            ↗︎ {daily.yesterday.length - daily.today.length} więcej niż wczoraj
+            ↗︎ {(daily.yesterday.length - daily.today.length) * -1} więcej niż
+            wczoraj
           </div>
         ) : (
           <div className="stat-desc text-error">
@@ -76,8 +77,8 @@ export const Stats: FC<IStatsProps> = ({ total, unique, daily }) => {
         </div>
         {daily.yesterdayUnique.length - daily.todayUnique.length < 0 ? (
           <div className="stat-desc text-success">
-            ↗︎ {daily.yesterdayUnique.length - daily.todayUnique.length} więcej
-            niż wczoraj
+            ↗︎ {(daily.yesterdayUnique.length - daily.todayUnique.length) * -1}{" "}
+            więcej niż wczoraj
           </div>
         ) : (
           <div className="stat-desc text-error">
